@@ -6,6 +6,7 @@ package random;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,13 +22,14 @@ public class RockPaperScissors extends JPanel implements ActionListener{
 	private JButton rockButton = new JButton();
 	private JButton paperButton = new JButton();
 	private JButton scissorsButton = new JButton();
-
+	private JButton minigunButton = new JButton();
+	
 	private JLabel instructionLabel = new JLabel();
 
 	private Icon rockImage;
 	private Icon paperImage;
 	private Icon scissorsImage;
-
+	private Icon minigunImage;
 	private Dimension buttonDim = new Dimension(300, 200);
     
     public void run(){
@@ -38,10 +40,10 @@ public class RockPaperScissors extends JPanel implements ActionListener{
 			// Drop the pictures into this package
 			// Replace the names below with your images
 		
-			rockImage = new ImageIcon(getClass().getResource("rock.png"));
+			rockImage = new ImageIcon(getClass().getResource("rock.jpeg"));
 			paperImage = new ImageIcon(getClass().getResource("paper.jpeg"));
-			scissorsImage = new ImageIcon(getClass().getResource("scissors.jpeg"));
-
+			scissorsImage = new ImageIcon(getClass().getResource("scisors.jpeg"));
+			minigunImage= new ImageIcon(getClass().getResource("minigun.jpeg"));
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "Cannot find one or more of your images");
 		}
@@ -49,14 +51,17 @@ public class RockPaperScissors extends JPanel implements ActionListener{
 		rockButton.setIcon(rockImage);
 		paperButton.setIcon(paperImage);
 		scissorsButton.setIcon(scissorsImage);
+		minigunButton.setIcon(minigunImage);
         
         rockButton.addActionListener(this);
         paperButton.addActionListener(this);
         scissorsButton.addActionListener(this);
+        minigunButton.addActionListener(this);
         
         rockButton.setPreferredSize(buttonDim);
         paperButton.setPreferredSize(buttonDim);
         scissorsButton.setPreferredSize(buttonDim);
+        minigunButton.setPreferredSize(buttonDim);
         
         instructionLabel.setText("Choose Your Weapon!");
         
@@ -64,6 +69,7 @@ public class RockPaperScissors extends JPanel implements ActionListener{
         add(rockButton);
         add(paperButton);
         add(scissorsButton);
+        add(minigunButton);
         
         window.add(this);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,10 +84,13 @@ public class RockPaperScissors extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-        //2. Run the program 4 times. Does the computer always choose the same thing?
+        //2. Run the program 4 times. Does the computer always choose the same thing?yes
 
         //3. Change oppenentSelection to be a random number between 0 and 2;
-        int opponentSelection = 0;
+    	Random jeffr=new Random();
+        int opponentSelection=jeffr.nextInt(4);
+			
+		
         
         //4. Run the program again. Is the result different?
  
@@ -91,6 +100,8 @@ public class RockPaperScissors extends JPanel implements ActionListener{
             selection = 1;
         }else if(e.getSource() == scissorsButton){
             selection = 2;
+        }else if(e.getSource() == minigunButton){
+        	selection = 3;
         }
         
         JOptionPane.showMessageDialog(null, "You chose: " + convertSelection(selection) + ".\n"
@@ -100,7 +111,10 @@ public class RockPaperScissors extends JPanel implements ActionListener{
             JOptionPane.showMessageDialog(null, "No Winner.  Play again.");
         }else if((selection == 0 && opponentSelection == 2) || 
                  (selection == 1 && opponentSelection == 0) ||
-                 (selection == 2 && opponentSelection == 1)){
+                 (selection == 2 && opponentSelection == 1)||
+        		(selection == 3 && opponentSelection == 2) ||
+        			(selection == 3 && opponentSelection == 0)){
+        				
             JOptionPane.showMessageDialog(null, "You Win!");
         }else{
             JOptionPane.showMessageDialog(null, "You Lose!");
@@ -114,8 +128,9 @@ public class RockPaperScissors extends JPanel implements ActionListener{
             return "PAPER";
        else if (s==2)
             return "SCISSORS";
-       else
-            return "";
+       else if (s==3)
+            return "MINIGUN!!!!";
+	return "";
         }
     }
     
